@@ -2,6 +2,10 @@ import React, { Fragment, useEffect } from "react";
 import { CgMouse } from "react-icons/cg";
 import ProductCard from "./ProductCard";
 import "./Home.css";
+import Loader from "../layout/Loader/Loader";
+import { useSelector, useDispatch } from "react-redux";
+import { getProduct } from "../../actions/productAction";
+import { useAlert } from "react-alert";
 
 const product = {
     name: "Blue Shirt",
@@ -11,7 +15,18 @@ const product = {
 }
 const Home = () => {
   
+  const alert = useAlert();
+  const dispatch = useDispatch();
+  const { loading, products, productsCount, error } = useSelector((state) => state.product);
+
+  useEffect(() => {
+    dispatch(getProduct())
+  }, [dispatch])
     return (
+      <Fragment>
+      {loading ? (
+        <Loader />
+      ) : (
           <Fragment>
             {/* <MetaData title="ECOMMERCE" />s */}
   
@@ -30,16 +45,18 @@ const Home = () => {
   
             <div className="container" id="container">
               
+              {products && products.map((product) => <ProductCard key={product._id} product={product} />  )}
+                  {/* <ProductCard key={product._id} product={product} />
                   <ProductCard key={product._id} product={product} />
                   <ProductCard key={product._id} product={product} />
                   <ProductCard key={product._id} product={product} />
                   <ProductCard key={product._id} product={product} />
                   <ProductCard key={product._id} product={product} />
-                  <ProductCard key={product._id} product={product} />
-                  <ProductCard key={product._id} product={product} />
-                  <ProductCard key={product._id} product={product} />
+                  <ProductCard key={product._id} product={product} /> */}
               </div>
           </Fragment>
         )};
-  
+     </Fragment>
+  )
+  };
   export default Home;
