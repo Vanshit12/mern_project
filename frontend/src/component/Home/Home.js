@@ -4,7 +4,7 @@ import ProductCard from "./ProductCard";
 import "./Home.css";
 import Loader from "../layout/Loader/Loader";
 import { useSelector, useDispatch } from "react-redux";
-import { getProduct } from "../../actions/productAction";
+import { getProduct, clearErrors } from "../../actions/productAction";
 import { useAlert } from "react-alert";
 
 const product = {
@@ -20,6 +20,10 @@ const Home = () => {
   const { loading, products, productsCount, error } = useSelector((state) => state.product);
 
   useEffect(() => {
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
     dispatch(getProduct())
   }, [dispatch])
     return (

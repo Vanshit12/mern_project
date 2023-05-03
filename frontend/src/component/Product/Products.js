@@ -28,7 +28,7 @@ const Products = ({ }) => {
   const alert = useAlert();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [price, setPrice] = useState([0, 25000]);
+  const [price, setPrice] = useState([0, 250000]);
   const [category, setCategory] = useState("");
 
   const [ratings, setRatings] = useState(0);
@@ -58,9 +58,8 @@ const Products = ({ }) => {
       alert.error(error);
       dispatch(clearErrors());
     }
-    console.log(products)
     dispatch(getProduct(keyword, currentPage, price, category, ratings));
-  }, [dispatch, keyword, currentPage, price, category, ratings, alert, error]);
+  }, [dispatch, keyword, currentPage, price, category, ratings]);
 
   return (
     <Fragment>
@@ -79,7 +78,7 @@ const Products = ({ }) => {
                 </>
               ))}
           </div>
-{/* 
+
           <div className="filterBox">
             <Typography>Price</Typography>
             <Slider
@@ -118,8 +117,8 @@ const Products = ({ }) => {
               />
             </fieldset>
 
-          </div> */}
-          {resultPerPage < count && (
+          </div>
+          {resultPerPage < productsCount && (
             <div className="paginationBox">
               <Pagination
                 activePage={currentPage}

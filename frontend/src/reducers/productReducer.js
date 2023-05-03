@@ -53,7 +53,8 @@ import {
         return {
           loading: false,
           products: action.payload.products,
-          productsCount: action.payload.productCount
+          productsCount: action.payload.productCount,
+          resultPerPage: action.payload.resultPerPage
         };
       case ALL_PRODUCT_FAIL:
         return {
