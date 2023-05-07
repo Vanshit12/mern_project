@@ -177,23 +177,39 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
 });
 
 
-// update User password
+// update User Profile
 exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
-
   const newUserData = {
     name: req.body.name,
     email: req.body.email,
   };
+
+  if (req.body.avatar !== "" && req.body.avatar != "undefined") {
+    const user = await User.findById(req.user.id);
+    const imageId = user.avatar.public_id;
+    await cloudinary.v2.uploader.destroy(req.body.avatar);
+
+    const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+      folder: "avatars",
+      width: 150,
+      crop: "scale",
+    });
+    newUserData.avatar = {
+      public_id: myCloud.public_id,
+      url: myCloud.secure_url,
+    };
+  }
 
   const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
     new: true,
     runValidators: true,
     useFindAndModify: false,
   });
-  
-  await user.save();
 
-  sendToken(user, 200, res);
+  res.status(200).json({
+    success: true,
+    user: user
+  });
 });
 
 exports.getAllUser = catchAsyncErrors(async (req, res, next) => {

@@ -40,7 +40,7 @@ import {
   import Cookies from "universal-cookie";
 
   const cookies = new Cookies();
-
+  axios.defaults.withCredentials = true
   // Login
   export const login = (email, password) => async (dispatch) => {
     try {
@@ -93,6 +93,23 @@ export const loadUser = () => async (dispatch) => {
   }
 };
 
+
+// Update Profile
+export const updateProfile = (userData) => async (dispatch) => {
+  try {
+    dispatch({ type: UPDATE_PROFILE_REQUEST });
+
+    const config = { headers: { "Content-Type": "application/json" } };
+    const { data } = await axios.put(`http://localhost:4000/api/v1/me/update`, userData, config);
+
+    dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: data.success });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_PROFILE_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
 
 // Logout User
 export const logout = () => async (dispatch) => {

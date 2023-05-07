@@ -3,8 +3,12 @@ const cors = require('cors');
 const app = express();
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
-
-app.use(cors({ credentials: true , origin: true} ));
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    credentials: true
+  };
+  
+app.use(cors({ credentials: true , origin: true, corsOptions} ));
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.json());
