@@ -8,6 +8,7 @@ import Products from "./component/Product/Products";
 import Search from "./component/Product/Search";
 import LoginSignUp from "./component/User/LoginSignUp";
 import Profile from "./component/User/Profile"
+import Cart from "./component/Cart/Cart";
 import UpdateProfile from "./component/User/UpdateProfile";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import WebFont from "webfontloader";
@@ -17,7 +18,9 @@ import { loadUser } from "./actions/userAction";
 import { useSelector } from "react-redux";
 import UserOptions from "./component/layout/Header/UserOptions";
 import ProtectedRoute from "./component/Route/ProtectedRoute";
-
+import UpdatePassword from "./component/User/UpdatePassword";
+import ForgotPassword from "./component/User/ForgotPassword";
+import ResetPassword from "./component/User/ResetPassword";
 function App() {
   
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -47,9 +50,11 @@ function App() {
 
         <Route  path="/account" element={ <ProtectedRoute> <Profile /> </ProtectedRoute>  } />
         <Route  path="/me/update" element={ <ProtectedRoute> <UpdateProfile /> </ProtectedRoute>  } />
+        <Route  path="/password/update" element={ <ProtectedRoute> <UpdatePassword /> </ProtectedRoute>  } />
+        <Route  path="/password/forgot" element={<ForgotPassword /> } />
 
-
-        {/* <Route exact path="/account" element={<Profile />} /> */}
+        <Route exact path="/password/reset/:token" element={<ResetPassword />} />
+        <Route exact path="/cart" element={<Cart />} />
 
         <Route exact path="/search" element={<Search />} />
 

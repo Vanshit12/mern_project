@@ -25,7 +25,7 @@ exports.testing = catchAsyncErrors(async (req, res) => {
 });
 
 exports.createProduct = catchAsyncErrors(async (req, res, next) => {
-
+    console.log(req.body)
     const product = await Product.create(req.body);
 
     res.status(200).json({success: true, product});

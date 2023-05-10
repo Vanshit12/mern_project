@@ -10,12 +10,13 @@ import Loader from "../layout/Loader/Loader";
 import { useParams } from "react-router-dom";
 import { Rating } from "@material-ui/lab";
 import ReviewCard from "./ReviewCard";
+import { useAlert } from "react-alert";
+import { addItemsToCart } from "../../actions/cartAction";
 
 const ProductDetails = ({ }) => {
     const dispatch = useDispatch();
-    const param = useParams();
-
-    
+    const params = useParams();
+    const alert = useAlert();
 
   const [quantity, setQuantity] = useState(1);
   const [open, setOpen] = useState(false);
@@ -46,9 +47,15 @@ const ProductDetails = ({ }) => {
     const qty = quantity - 1;
     setQuantity(qty);
   };
+
+  const addToCartHandler = () => {
+    dispatch(addItemsToCart(params.id, quantity));
+    alert.success("Item Added To Cart");
+  };
+
 useEffect(() => {
-    dispatch(getProductDetails(param.id));
-  }, [dispatch, param.id]);
+    dispatch(getProductDetails(params.id));
+  }, [dispatch, params.id]);
 
 return (
     <Fragment>
@@ -94,7 +101,7 @@ return (
                     </div>
                     <button
                       disabled={product.Stock < 1 ? true : false}
-                      
+                      onClick={addToCartHandler} 
                     >
                       Add to Cart
                     </button>
